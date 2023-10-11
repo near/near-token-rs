@@ -1,0 +1,20 @@
+[package]
+name = "near-token"
+version = "0.1.0"
+edition = "2021"
+authors = ["Serhieiev Ivan <serhieievivan6@gmail.com>"]
+repository = "https://github.com/Mr0melian/near-token"
+rust-version = "1.68.2"
+categories = ["nearprotocol, blockchain, neargas"]
+license = "MIT OR Apache-2.0"
+include = ["lib.rs", "utils.rs", "README.md", "LICENSE-APACHE", "LICENSE-MIT"]
+description = "near-gas is crate for work with gas data in near-protocol."
+
+[dependencies]
+serde = { version = "1", features = ["derive"], optional = true }
+borsh = { version = "0.9", features = ["const-generics"], optional = true }
+schemars = { version = "0.8.8", optional = true }
+interactive-clap = { version = "0.2.4", optional = true }
+
+[dev-dependencies]
+serde_json = { version = "1" }
