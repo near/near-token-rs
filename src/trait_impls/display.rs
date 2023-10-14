@@ -13,7 +13,8 @@ impl std::fmt::Display for NearToken {
         } else if *self < NearToken::from_mili_near(1) {
             write!(f, "<0.001 Near")
         } else if *self <= NearToken::from_mili_near(999) {
-            let gigagas_rounded_up = self.as_yoctonear().saturating_add(ONE_MILI_NEAR - 1) / ONE_MILI_NEAR;
+            let gigagas_rounded_up =
+                self.as_yoctonear().saturating_add(ONE_MILI_NEAR - 1) / ONE_MILI_NEAR;
             write!(f, "0.{:03} Near", gigagas_rounded_up)
         } else {
             let terragas_rounded_up =

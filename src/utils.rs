@@ -1,6 +1,6 @@
-/// Parsing decimal numbers from `&str` type in `u64`.
-/// Function also takes a value of metric prefix in u64 type.
-/// `parse_str` use the `u64` type, and have the same max and min values.
+/// Parsing decimal numbers from `&str` type in `u128`.
+/// Function also takes a value of metric prefix in u128 type.
+/// `parse_str` use the `u128` type, and have the same max and min values.
 ///
 /// If the fractional part is longer than several zeros in the prefix, it will return the error `DecimalNumberParsingError::LongFractional`.
 ///
@@ -91,7 +91,11 @@ mod tests {
 
     const TEST: [(u128, &'static str, u128); 6] = [
         (129380_000_001u128, "129.380000001", 10u128.pow(9)),
-        (12938_000_000_100_000_000u128, "12938000000.1", 10u128.pow(9)),
+        (
+            12938_000_000_100_000_000u128,
+            "12938000000.1",
+            10u128.pow(9),
+        ),
         (129380_000_001u128, "0.129380000001", 10u128.pow(12)),
         (129380_000_001_000u128, "129.380000001000", 10u128.pow(12)),
         (9488129380_000_001u128, "9488.129380000001", 10u128.pow(12)),

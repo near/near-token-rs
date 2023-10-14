@@ -1,4 +1,4 @@
-use crate::{NearToken, NearTokenError, ONE_NEAR, ONE_MILI_NEAR};
+use crate::{NearToken, NearTokenError, ONE_MILI_NEAR, ONE_NEAR};
 
 impl std::str::FromStr for NearToken {
     type Err = NearTokenError;
@@ -51,7 +51,6 @@ mod test {
         )
     }
 
-
     #[test]
     fn incorect_currency() {
         let data = "0 pas";
@@ -98,13 +97,19 @@ mod test {
     #[test]
     fn test_from_str_incorrect_unit() {
         let near_gas = NearToken::from_str("100 UAH").unwrap_err();
-        assert_eq!(near_gas, NearTokenError::IncorrectUnit("100 UAH".to_string()));
+        assert_eq!(
+            near_gas,
+            NearTokenError::IncorrectUnit("100 UAH".to_string())
+        );
     }
 
     #[test]
     fn test_from_str_invalid_double_dot() {
         let near_gas = NearToken::from_str("100.55.").unwrap_err();
-        assert_eq!(near_gas, NearTokenError::IncorrectUnit("100.55.".to_string()));
+        assert_eq!(
+            near_gas,
+            NearTokenError::IncorrectUnit("100.55.".to_string())
+        );
     }
 
     #[test]
@@ -117,6 +122,4 @@ mod test {
             ))
         );
     }
-
-
 }
