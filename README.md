@@ -1,8 +1,6 @@
-"https://crates.io/crates/near-sdk"><img src="" alt="Crates.io version" /></a>
-
 ![Crates.io (latest)](https://img.shields.io/crates/dv/near-token?style=flat-square&logo=near&label=crates.io)
 ![docs.rs](https://img.shields.io/docsrs/near-token?style=flat-square)
-![Static Badge](https://img.shields.io/badge/rustc-1.68%2B-lightgray.svg)
+![Static Badge](https://img.shields.io/badge/rustc-1.68%2B-lightgray.svg?style=flat-square)
 
 
 # near-token
