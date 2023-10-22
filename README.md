@@ -1,7 +1,8 @@
-![Crates.io (latest)](https://img.shields.io/crates/dv/near-token?style=flat-square&logo=near&label=crates.io)
-![docs.rs](https://img.shields.io/docsrs/near-token?style=flat-square)
-![Static Badge](https://img.shields.io/badge/rustc-1.68%2B-lightgray.svg?style=flat-square)
-
+<p>
+    <a href="https://crates.io/crates/near-token"><img src="https://img.shields.io/crates/dv/near-token?style=flat-square&logo=near&label=crates.io" alt="Crates.io (latest)"></a>
+    <a href="https://docs.rs/near-token/0.0.1/near_token"><img src="https://img.shields.io/docsrs/near-token?style=flat-square" alt="Docs.rs"></a>
+    <img src="https://img.shields.io/badge/rustc-1.68%2B-lightgray.svg?style=flat-square" alt="Rust Version">
+</p>
 
 # near-token
 near-token is crate for work with tokens in near-protocol.
