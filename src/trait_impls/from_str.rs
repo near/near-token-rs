@@ -1,4 +1,4 @@
-use crate::{NearToken, NearTokenError, ONE_MILI_NEAR, ONE_NEAR};
+use crate::{NearToken, NearTokenError, ONE_NEAR};
 
 impl std::str::FromStr for NearToken {
     type Err = NearTokenError;
@@ -9,9 +9,8 @@ impl std::str::FromStr for NearToken {
                 .ok_or_else(|| NearTokenError::IncorrectUnit(s.to_owned()))?,
         );
         let unit_precision = match unit {
-            "YN" | "YNEAR" | "YOCTONEAR" | "YOCTON" => 1,
+            "YN" | "YNEAR" | "YOCTONEAR" => 1,
             "NEAR" | "N" => ONE_NEAR,
-            "MN" | "MNEAR" | "MILINEAR" | "MILIN" => ONE_MILI_NEAR,
             _ => return Err(NearTokenError::IncorrectUnit(s.to_owned())),
         };
         Ok(NearToken::from_near(

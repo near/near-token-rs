@@ -1,15 +1,15 @@
 //! A `NearToken` type to represent a value of Near.
 //!
-//! Each `NearGas` is composed of a floating point number of tokens where each integer unit is equal to one yocto-Near.
+//! Each `Neartokens` is composed of a floating point number of tokens where each integer unit is equal to one yocto-Near.
 //! `NearToken` is implementing the common trait `FromStr`. Also, have utils function to parse from `str` into `u128`.
 //!
 //! # Examples
 //! ```
-//!     use near_token::*;
+//! use near_token::NearToken;
 //!
-//!     let one_near = NearGas::from_yoctonear(10u128.pow(24)));
-//!     assert_eq!(one_near, NearGas::from_near(1u128));
-//!     assert_eq!(one_near, NearGas::from_milinear(1000u64));
+//! let one_near = NearToken::from_yoctonear(10_u128.pow(24));
+//! assert_eq!(one_near, NearToken::from_near(1));
+//! assert_eq!(one_near, NearToken::from_millinear(1000));
 //! ```
 //!
 //! # Crate features
@@ -44,29 +44,29 @@ pub struct NearToken {
     inner: u128,
 }
 
-const ONE_NEAR: u128 = 10u128.pow(24);
-const ONE_MILI_NEAR: u128 = 10u128.pow(21);
+const ONE_NEAR: u128 = 10_u128.pow(24);
+const ONE_MILLINEAR: u128 = 10_u128.pow(21);
 
 impl NearToken {
     /// `from_yoctonear` is a function that takes value by a number of yocto-near.
     /// # Examples
     /// ```
     /// use near_token::NearToken;
-    /// assert_eq!( NearToken::from_yoctonear(10u128.pow(21)), NearToken::from_mili_near(1))
+    /// assert_eq!( NearToken::from_yoctonear(10u128.pow(21)), NearToken::from_millinear(1))
     /// ```
     pub const fn from_yoctonear(inner: u128) -> Self {
         Self { inner }
     }
 
-    /// `from_mili_near` is a function that takes value by a number of mili-near and converts it to an equivalent to the yocto-near.
+    /// `from_millinear` is a function that takes value by a number of mili-near and converts it to an equivalent to the yocto-near.
     /// # Examples
     /// ```
     /// use near_token::NearToken;
-    /// assert_eq!(NearToken::from_mili_near(1), NearToken::from_yoctonear(10u128.pow(21)))
+    /// assert_eq!(NearToken::from_millinear(1), NearToken::from_yoctonear(10u128.pow(21)))
     /// ```
-    pub const fn from_mili_near(inner: u128) -> Self {
+    pub const fn from_millinear(inner: u128) -> Self {
         Self {
-            inner: inner * ONE_MILI_NEAR,
+            inner: inner * ONE_MILLINEAR,
         }
     }
 
@@ -92,14 +92,14 @@ impl NearToken {
         self.inner / ONE_NEAR
     }
 
-    /// `as_mili_near` is a function that converts number of yocto-near to an equivalent to the mili-near.
+    /// `as_millinear` is a function that converts number of yocto-near to an equivalent to the mili-near.
     /// # Examples
     /// ```
     /// use near_token::NearToken;
-    /// assert_eq!(NearToken::from_yoctonear(10u128.pow(21)).as_mili_near(), 1)
+    /// assert_eq!(NearToken::from_yoctonear(10u128.pow(21)).as_millinear(), 1)
     /// ```
-    pub const fn as_mili_near(&self) -> u128 {
-        self.inner / ONE_MILI_NEAR
+    pub const fn as_millinear(&self) -> u128 {
+        self.inner / ONE_MILLINEAR
     }
 
     /// `as_yoctonear` is a function that shows a number of yocto-near.
@@ -246,94 +246,97 @@ mod test {
     use crate::NearToken;
 
     #[test]
-    fn checked_add_gas() {
-        let gas = NearToken::from_yoctonear(u128::MAX - 3);
-        let any_gas = NearToken::from_yoctonear(3);
-        let more_gas = NearToken::from_yoctonear(4);
+    fn checked_add_tokens() {
+        let tokens = NearToken::from_yoctonear(u128::MAX - 3);
+        let any_tokens = NearToken::from_yoctonear(3);
+        let more_tokens = NearToken::from_yoctonear(4);
         assert_eq!(
-            gas.checked_add(any_gas),
+            tokens.checked_add(any_tokens),
             Some(NearToken::from_yoctonear(u128::MAX))
         );
-        assert_eq!(gas.checked_add(more_gas), None);
+        assert_eq!(tokens.checked_add(more_tokens), None);
     }
 
     #[test]
-    fn checked_sub_gas() {
-        let gas = NearToken::from_yoctonear(3);
-        let any_gas = NearToken::from_yoctonear(1);
-        let more_gas = NearToken::from_yoctonear(4);
-        assert_eq!(gas.checked_sub(any_gas), Some(NearToken::from_yoctonear(2)));
-        assert_eq!(gas.checked_sub(more_gas), None);
-    }
-
-    #[test]
-    fn checked_mul_gas() {
-        let gas = NearToken::from_yoctonear(u128::MAX / 10);
+    fn checked_sub_tokens() {
+        let tokens = NearToken::from_yoctonear(3);
+        let any_tokens = NearToken::from_yoctonear(1);
+        let more_tokens = NearToken::from_yoctonear(4);
         assert_eq!(
-            gas.checked_mul(10),
+            tokens.checked_sub(any_tokens),
+            Some(NearToken::from_yoctonear(2))
+        );
+        assert_eq!(tokens.checked_sub(more_tokens), None);
+    }
+
+    #[test]
+    fn checked_mul_tokens() {
+        let tokens = NearToken::from_yoctonear(u128::MAX / 10);
+        assert_eq!(
+            tokens.checked_mul(10),
             Some(NearToken::from_yoctonear(u128::MAX / 10 * 10))
         );
-        assert_eq!(gas.checked_mul(11), None);
+        assert_eq!(tokens.checked_mul(11), None);
     }
 
     #[test]
-    fn checked_div_gas() {
-        let gas = NearToken::from_yoctonear(10);
-        assert_eq!(gas.checked_div(2), Some(NearToken::from_yoctonear(5)));
-        assert_eq!(gas.checked_div(11), Some(NearToken::from_yoctonear(0)));
-        assert_eq!(gas.checked_div(0), None);
+    fn checked_div_tokens() {
+        let tokens = NearToken::from_yoctonear(10);
+        assert_eq!(tokens.checked_div(2), Some(NearToken::from_yoctonear(5)));
+        assert_eq!(tokens.checked_div(11), Some(NearToken::from_yoctonear(0)));
+        assert_eq!(tokens.checked_div(0), None);
     }
 
     #[test]
-    fn saturating_add_gas() {
-        let gas = NearToken::from_yoctonear(100);
-        let added_gas = NearToken::from_yoctonear(1);
-        let another_gas = NearToken::from_yoctonear(u128::MAX);
+    fn saturating_add_tokens() {
+        let tokens = NearToken::from_yoctonear(100);
+        let added_tokens = NearToken::from_yoctonear(1);
+        let another_tokens = NearToken::from_yoctonear(u128::MAX);
         assert_eq!(
-            gas.saturating_add(added_gas.clone()),
+            tokens.saturating_add(added_tokens.clone()),
             NearToken::from_yoctonear(101)
         );
         assert_eq!(
-            another_gas.saturating_add(added_gas),
+            another_tokens.saturating_add(added_tokens),
             NearToken::from_yoctonear(u128::MAX)
         );
     }
 
     #[test]
-    fn saturating_sub_gas() {
-        let gas = NearToken::from_yoctonear(100);
-        let rhs_gas = NearToken::from_yoctonear(1);
-        let another_gas = NearToken::from_yoctonear(u128::MIN);
+    fn saturating_sub_tokens() {
+        let tokens = NearToken::from_yoctonear(100);
+        let rhs_tokens = NearToken::from_yoctonear(1);
+        let another_tokens = NearToken::from_yoctonear(u128::MIN);
         assert_eq!(
-            gas.saturating_sub(rhs_gas.clone()),
+            tokens.saturating_sub(rhs_tokens.clone()),
             NearToken::from_yoctonear(99)
         );
         assert_eq!(
-            another_gas.saturating_sub(rhs_gas),
+            another_tokens.saturating_sub(rhs_tokens),
             NearToken::from_yoctonear(u128::MIN)
         );
     }
 
     #[test]
-    fn saturating_mul_gas() {
-        let gas = NearToken::from_yoctonear(2);
+    fn saturating_mul_tokens() {
+        let tokens = NearToken::from_yoctonear(2);
         let rhs = 10;
-        let another_gas = u128::MAX;
-        assert_eq!(gas.saturating_mul(rhs), NearToken::from_yoctonear(20));
+        let another_tokens = u128::MAX;
+        assert_eq!(tokens.saturating_mul(rhs), NearToken::from_yoctonear(20));
         assert_eq!(
-            gas.saturating_mul(another_gas),
+            tokens.saturating_mul(another_tokens),
             NearToken::from_yoctonear(u128::MAX)
         );
     }
 
     #[test]
-    fn saturating_div_gas() {
-        let gas = NearToken::from_yoctonear(10);
+    fn saturating_div_tokens() {
+        let tokens = NearToken::from_yoctonear(10);
         let rhs = 2;
-        let another_gas = 20;
-        assert_eq!(gas.saturating_div(rhs), NearToken::from_yoctonear(5));
+        let another_tokens = 20;
+        assert_eq!(tokens.saturating_div(rhs), NearToken::from_yoctonear(5));
         assert_eq!(
-            gas.saturating_div(another_gas),
+            tokens.saturating_div(another_tokens),
             NearToken::from_yoctonear(0)
         );
     }

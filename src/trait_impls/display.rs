@@ -1,29 +1,29 @@
-use crate::{NearToken, NearTokenError, ONE_MILI_NEAR};
+use crate::{NearToken, NearTokenError, ONE_MILLINEAR};
 
-/// NearGas Display implementation rounds up the gas usage to the relevant precision point.
+/// NearToken Display implementation rounds up the token amount to the relevant precision point.
 /// There are 4 breakpoints:
-/// 1. exactly 0 Tgas
-/// 2. <0.001 Tgas
-/// 3. 0.001 - 0.999 Tgas (uses 3 digits after the floating point)
-/// 4. >1 Tgas (uses 1 digit after the floating point)
+/// 1. exactly 0 NEAR
+/// 2. <0.001 NEAR
+/// 3. 0.001 - 0.999 NEAR (uses 3 digits after the floating point)
+/// 4. >1 NEAR (uses 2 digits after the floating point)
 impl std::fmt::Display for NearToken {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         if *self == NearToken::from_yoctonear(0) {
-            write!(f, "0 Near")
-        } else if *self < NearToken::from_mili_near(1) {
-            write!(f, "<0.001 Near")
-        } else if *self <= NearToken::from_mili_near(999) {
-            let gigagas_rounded_up =
-                self.as_yoctonear().saturating_add(ONE_MILI_NEAR - 1) / ONE_MILI_NEAR;
-            write!(f, "0.{:03} Near", gigagas_rounded_up)
+            write!(f, "0 NEAR")
+        } else if *self < NearToken::from_millinear(1) {
+            write!(f, "<0.001 NEAR")
+        } else if *self <= NearToken::from_millinear(999) {
+            let millinear_rounded_up =
+                self.as_yoctonear().saturating_add(ONE_MILLINEAR - 1) / ONE_MILLINEAR;
+            write!(f, "0.{:03} NEAR", millinear_rounded_up)
         } else {
-            let terragas_rounded_up =
-                self.as_yoctonear().saturating_add(100 * ONE_MILI_NEAR - 1) / ONE_MILI_NEAR / 100;
+            let near_rounded_up =
+                self.as_yoctonear().saturating_add(10 * ONE_MILLINEAR - 1) / ONE_MILLINEAR / 10;
             write!(
                 f,
-                "{}.{} Near",
-                terragas_rounded_up / 10,
-                terragas_rounded_up % 10
+                "{}.{:02} NEAR",
+                near_rounded_up / 100,
+                near_rounded_up % 100
             )
         }
     }
@@ -44,37 +44,70 @@ mod test {
 
     #[test]
     fn test_display() {
-        for (near_gas, expected_display) in [
-            (NearToken::from_yoctonear(0), "0 Near"),
-            (NearToken::from_yoctonear(1), "<0.001 Near"),
-            (NearToken::from_yoctonear(999_999_999), "<0.001 Near"),
-            (NearToken::from_yoctonear(10u128.pow(21)), "0.001 Near"),
-            (NearToken::from_yoctonear(10u128.pow(21) + 1), "0.002 Near"),
-            (NearToken::from_yoctonear(10u128.pow(21) * 2), "0.002 Near"),
-            //(NearToken::from_yoctonear(200_000_000_000), "0.200 Near"),
-            //(NearToken::from_yoctonear(999_000_000_000), "0.999 Near"),
-            //(NearToken::from_yoctonear(999_000_000_001), "1.0 Near"),
-            //(NearToken::from_yoctonear(999_999_999_999), "1.0 Near"),
-            //(NearToken::from_yoctonear(1_000_000_000_000), "1.0 Near"),
-            //(NearToken::from_yoctonear(1_000_000_000_001), "1.1 Near"),
-            //(NearToken::from_yoctonear(1_234_567_000_000), "1.3 Near"),
-            //(NearToken::from_yoctonear(1_500_000_000_000), "1.5 Near"),
-            //(NearToken::from_yoctonear(10_000_000_000_000), "10.0 Near"),
-            //(NearToken::from_yoctonear(10_500_000_000_000), "10.5 Near"),
-            //(NearToken::from_yoctonear(99_999_999_999_999), "100.0 Near"),
-            //(NearToken::from_yoctonear(100_000_000_000_000), "100.0 Near"),
-            //(NearToken::from_yoctonear(100_500_000_000_000), "100.5 Near"),
-            //(NearToken::from_yoctonear(1_000_500_000_000_000), "1000.5 Near"),
-            //(
-            //    NearToken::from_yoctonear(1_000_000_500_000_000_000),
-            //    "1000000.5 Near",
-            //),
+        for (near_tokens, expected_display) in [
+            (NearToken::from_yoctonear(0), "0 NEAR"),
+            (NearToken::from_yoctonear(1), "<0.001 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(21) - 1), "<0.001 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(21)), "0.001 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(21) + 1), "0.002 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(21) * 2), "0.002 NEAR"),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 200),
+                "0.200 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 999),
+                "0.999 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 999 + 1),
+                "1.00 NEAR",
+            ),
+            (NearToken::from_yoctonear(10u128.pow(24) - 1), "1.00 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(24)), "1.00 NEAR"),
+            (NearToken::from_yoctonear(10u128.pow(24) + 1), "1.01 NEAR"),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 1234),
+                "1.24 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 1500),
+                "1.50 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 10000),
+                "10.00 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 10500),
+                "10.50 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 100000 - 1),
+                "100.00 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 100000),
+                "100.00 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 100500),
+                "100.50 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 100000000),
+                "100000.00 NEAR",
+            ),
+            (
+                NearToken::from_yoctonear(10u128.pow(21) * 100000500),
+                "100000.50 NEAR",
+            ),
         ] {
             assert_eq!(
-                near_gas.to_string(),
+                near_tokens.to_string(),
                 expected_display,
-                "gas: {}",
-                near_gas.as_yoctonear()
+                "tokens: {}",
+                near_tokens.as_yoctonear()
             );
         }
     }
