@@ -37,7 +37,11 @@ pub use self::utils::DecimalNumberParsingError;
 #[derive(Default, Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
 #[cfg_attr(
     feature = "borsh",
-    derive(borsh::BorshDeserialize, borsh::BorshSerialize, borsh::BorshSchema)
+    derive(borsh::BorshDeserialize, borsh::BorshSerialize)
+)]
+#[cfg_attr(
+    feature = "abi",
+    derive(borsh::BorshSchema)
 )]
 #[repr(transparent)]
 pub struct NearToken {
