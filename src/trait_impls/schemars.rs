@@ -1,4 +1,4 @@
-use crate::NearGas;
+use crate::NearToken;
 
 impl schemars::JsonSchema for NearToken {
     fn is_referenceable() -> bool {
