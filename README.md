@@ -32,7 +32,6 @@ NEAR is used to price computation and storage on the NEAR infrastructure. The ne
 
 This project is licensed under the [MIT license] and [Apache-2.0 license].
 
-[MIT license]: https://github.com/Mr0melian/near_gas/blob/master/LICENSE-MIT
-[Apache-2.0 license]:  https://github.com/Mr0melian/near_gas/blob/master/LICENSE-APACHE
-[For more information]: https://docs.near.org/concepts/basics/transactions/gas
-[Gas usege in Near Protocol]: https://nomicon.io/RuntimeSpec/Fees/
+[MIT license]: https://github.com/Mr0melian/near_token/blob/main/LICENSE-MIT
+[Apache-2.0 license]:  https://github.com/near/near_token/blob/main/LICENSE-APACHE
+[For more information]: https://wiki.near.org/getting-started/near-token/
