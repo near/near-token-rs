@@ -9,7 +9,8 @@ near-token is crate for work with [tokens](https://docs.near.org/concepts/basics
 
 The crate includes NearToken type and constructors for converting data as NearToken and as u128 type values.
 
-## near-token examples 
+## near-token examples
+
 ```rust
 use near_token::NearToken;
 
@@ -22,11 +23,10 @@ fn main() {
     assert_eq!(NearToken::from_yoctonear(10u128.pow(24)).as_near(), 1);
 }
 ```
+
 ## NearToken information
+
 NEAR is used to price computation and storage on the NEAR infrastructure. The network charges transaction fees in NEAR to process changes and transactions.
- 
-
-
 
 ### License
 
@@ -34,5 +34,3 @@ This project is licensed under the [MIT license] and [Apache-2.0 license].
 
 [MIT license]: https://github.com/near/near-token/blob/main/LICENSE-MIT
 [Apache-2.0 license]:  https://github.com/near/near-token/blob/main/LICENSE-APACHE
-
-
