@@ -5,7 +5,7 @@
 </p>
 
 # near-token
-near-token is crate for work with ![tokens](https://docs.near.org/concepts/basics/tokens) in near-protocol.
+near-token is crate for work with [tokens](https://docs.near.org/concepts/basics/tokens) in near-protocol.
 
 The crate includes NearToken type and constructors for converting data as NearToken and as u128 type values.
 
