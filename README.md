@@ -5,7 +5,7 @@
 </p>
 
 # near-token
-near-token is crate for work with tokens in near-protocol.
+near-token is crate for work with ![tokens](https://docs.near.org/concepts/basics/tokens) in near-protocol.
 
 The crate includes NearToken type and constructors for converting data as NearToken and as u128 type values.
 
@@ -32,6 +32,8 @@ NEAR is used to price computation and storage on the NEAR infrastructure. The ne
 
 This project is licensed under the [MIT license] and [Apache-2.0 license].
 
-[MIT license]: https://github.com/near/near_token/blob/main/LICENSE-MIT
-[Apache-2.0 license]:  https://github.com/near/near_token/blob/main/LICENSE-APACHE
+[MIT license]: https://github.com/near/near-token/blob/main/LICENSE-MIT
+[Apache-2.0 license]:  https://github.com/near/near-token/blob/main/LICENSE-APACHE
 [For more information]: https://wiki.near.org/getting-started/near-token/
+
+
