@@ -101,11 +101,9 @@ fn main() {
 }
 ```
 
-
 ## NearToken information
-NEAR is used to price computation and storage on the NEAR infrastructure. The network charges transaction fees in NEAR to process changes and transactions.
- 
 
+NEAR is used to price computation and storage on the NEAR infrastructure. The network charges transaction fees in NEAR to process changes and transactions.
 
 
 ### License
@@ -114,6 +112,4 @@ This project is licensed under the [MIT license] and [Apache-2.0 license].
 
 [MIT license]: https://github.com/near/near-token/blob/main/LICENSE-MIT
 [Apache-2.0 license]:  https://github.com/near/near-token/blob/main/LICENSE-APACHE
-[For more information]: https://wiki.near.org/getting-started/near-token/
-
 
