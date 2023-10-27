@@ -105,7 +105,6 @@ fn main() {
 
 NEAR is used to price computation and storage on the NEAR infrastructure. The network charges transaction fees in NEAR to process changes and transactions.
 
-
 ### License
 
 This project is licensed under the [MIT license] and [Apache-2.0 license].
