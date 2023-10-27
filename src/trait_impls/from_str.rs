@@ -13,7 +13,7 @@ impl std::str::FromStr for NearToken {
             "NEAR" | "N" => ONE_NEAR,
             _ => return Err(NearTokenError::IncorrectUnit(s.to_owned())),
         };
-        Ok(NearToken::from_near(
+        Ok(NearToken::from_yoctonear(
             crate::utils::parse_decimal_number(value.trim(), unit_precision)
                 .map_err(NearTokenError::IncorrectNumber)?,
         ))
@@ -25,6 +25,32 @@ mod test {
     use std::str::FromStr;
 
     use crate::{DecimalNumberParsingError, NearToken, NearTokenError};
+
+    #[test]
+    fn parse_decimal_number() {
+        let data = "0.123456 near";
+        let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
+        assert_eq!(
+            gas.unwrap(),
+            NearToken::from_yoctonear(123456000000000000000000)
+        );
+    }
+    #[test]
+    fn parse_number_with_decimal_part() {
+        let data = "11.123456 near";
+        let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
+        assert_eq!(
+            gas.unwrap(),
+            NearToken::from_yoctonear(11123456000000000000000000)
+        );
+    }
+
+    #[test]
+    fn parse_yocto_number() {
+        let data = "123456 YN";
+        let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
+        assert_eq!(gas.unwrap(), NearToken::from_yoctonear(123456));
+    }
 
     #[test]
     fn doubledot() {
