@@ -55,31 +55,19 @@ pub enum DecimalNumberParsingError {
     LongFractional(String),
 }
 
-impl std::error::Error for DecimalNumberParsingError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        None
-    }
-
-    fn description(&self) -> &str {
-        "description() is deprecated; use Display"
-    }
-
-    fn cause(&self) -> Option<&dyn std::error::Error> {
-        self.source()
-    }
-}
+impl std::error::Error for DecimalNumberParsingError {}
 
 impl std::fmt::Display for DecimalNumberParsingError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             DecimalNumberParsingError::InvalidNumber(s) => {
-                write!(f, "Invalid number: {}", s)
+                write!(f, "invalid number: {}", s)
             }
             DecimalNumberParsingError::LongWhole(s) => {
-                write!(f, "Long whole part: {}", s)
+                write!(f, "too long whole part: {}", s)
             }
             DecimalNumberParsingError::LongFractional(s) => {
-                write!(f, "Long fractional part: {}", s)
+                write!(f, "too long fractional part: {}", s)
             }
         }
     }

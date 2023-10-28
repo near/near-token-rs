@@ -1,4 +1,4 @@
-use crate::{NearToken, NearTokenError, ONE_MILLINEAR};
+use crate::{NearToken, ONE_MILLINEAR};
 
 /// NearToken Display implementation rounds up the token amount to the relevant precision point.
 /// There are 4 breakpoints:
@@ -25,15 +25,6 @@ impl std::fmt::Display for NearToken {
                 near_rounded_up / 100,
                 near_rounded_up % 100
             )
-        }
-    }
-}
-
-impl std::fmt::Display for NearTokenError {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            NearTokenError::IncorrectNumber(err) => write!(f, "Incorrect number: {:?}", err),
-            NearTokenError::IncorrectUnit(err) => write!(f, "Incorrect unit: {}", err),
         }
     }
 }
