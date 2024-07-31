@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1](https://github.com/near/near-token-rs/compare/v0.2.0...v0.2.1) - 2024-07-31
+
+### Added
+- Added a new method `exact_amount_display` ([#9](https://github.com/near/near-token-rs/pull/9))
+
 ## [0.2.0](https://github.com/near/near-token-rs/compare/v0.1.0...v0.2.0) - 2023-10-28
 
 ### Other
