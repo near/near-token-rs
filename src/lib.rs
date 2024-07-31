@@ -240,6 +240,34 @@ impl NearToken {
         }
         NearToken::from_yoctonear(self.as_yoctonear().saturating_div(rhs))
     }
+
+    /// Formats the `NearToken` and displays the amount in NEAR or yoctoNEAR depending on the value.
+    ///
+    /// # Examples
+    /// ```
+    /// use near_token::NearToken;
+    /// assert_eq!(NearToken::from_yoctonear(10_u128.pow(24)).exact_amount_display(), "1 NEAR");
+    /// assert_eq!(NearToken::from_yoctonear(15 * 10_u128.pow(23)).exact_amount_display(), "1.5 NEAR");
+    /// assert_eq!(NearToken::from_yoctonear(500).exact_amount_display(), "500 yoctoNEAR");
+    /// assert_eq!(NearToken::from_yoctonear(0).exact_amount_display(), "0 NEAR");
+    /// ```
+    pub fn exact_amount_display(&self) -> String {
+        let yoctonear = self.as_yoctonear();
+
+        if yoctonear == 0 {
+            "0 NEAR".to_string()
+        } else if yoctonear <= 1_000 {
+            format!("{} yoctoNEAR", yoctonear)
+        } else if yoctonear % ONE_NEAR == 0 {
+            format!("{} NEAR", yoctonear / ONE_NEAR)
+        } else {
+            format!(
+                "{}.{} NEAR",
+                yoctonear / ONE_NEAR,
+                format!("{:0>24}", yoctonear % ONE_NEAR).trim_end_matches('0')
+            )
+        }
+    }
 }
 
 #[cfg(test)]
@@ -340,5 +368,23 @@ mod test {
             tokens.saturating_div(another_tokens),
             NearToken::from_yoctonear(0)
         );
+    }
+
+    #[test]
+    fn exact_amount_display_tokens() {
+        let token = NearToken::from_yoctonear(0);
+        assert_eq!(token.exact_amount_display(), "0 NEAR");
+
+        let token = NearToken::from_yoctonear(500);
+        assert_eq!(token.exact_amount_display(), "500 yoctoNEAR");
+
+        let token = NearToken::from_yoctonear(10_u128.pow(24));
+        assert_eq!(token.exact_amount_display(), "1 NEAR");
+
+        let token = NearToken::from_yoctonear(15 * 10_u128.pow(23));
+        assert_eq!(token.exact_amount_display(), "1.5 NEAR");
+
+        let token = NearToken::from_yoctonear(1_234_567_890_123_456_789_000_000);
+        assert_eq!(token.exact_amount_display(), "1.234567890123456789 NEAR");
     }
 }
