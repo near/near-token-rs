@@ -6,7 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.2.3](https://github.com/near/near-token-rs/compare/v0.2.1...v0.2.3) - 2024-08-12
+## [0.3.0](https://github.com/near/near-token-rs/compare/v0.2.1...v0.3.0) - 2024-08-12
+
+### Other
+- Extended the range of supported interactive-clap versions >=0.2,<0.4 ([#11](https://github.com/near/near-token-rs/pull/11))
+
+## [0.2.3](https://github.com/near/near-token-rs/compare/v0.2.1...v0.2.3) - 2024-08-12 (yanked due to [invalid interactive-clap version](https://users.rust-lang.org/t/cargo-duplicating-dependency-when-it-seems-like-it-shouldnt-be/87883/6) gets pulled in new projects)
 
 ### Other
 - Extended the range of supported interactive-clap versions >=0.2,<0.4 ([#11](https://github.com/near/near-token-rs/pull/11))
