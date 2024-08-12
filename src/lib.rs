@@ -21,10 +21,10 @@
 //!   When enabled allows `NearToken` to serialized and deserialized by `serde`.
 //!
 //! * **schemars** (optional) -
-//!  Implements `schemars::JsonSchema` for `NearToken`.
+//!   Implements `schemars::JsonSchema` for `NearToken`.
 //!
 //! * **interactive-clap** (optional) -
-//!  Implements `interactive_clap::ToCli` for `NearToken`.
+//!   Implements `interactive_clap::ToCli` for `NearToken`.
 mod error;
 
 mod utils;
@@ -322,7 +322,7 @@ mod test {
         let added_tokens = NearToken::from_yoctonear(1);
         let another_tokens = NearToken::from_yoctonear(u128::MAX);
         assert_eq!(
-            tokens.saturating_add(added_tokens.clone()),
+            tokens.saturating_add(added_tokens),
             NearToken::from_yoctonear(101)
         );
         assert_eq!(
@@ -337,7 +337,7 @@ mod test {
         let rhs_tokens = NearToken::from_yoctonear(1);
         let another_tokens = NearToken::from_yoctonear(u128::MIN);
         assert_eq!(
-            tokens.saturating_sub(rhs_tokens.clone()),
+            tokens.saturating_sub(rhs_tokens),
             NearToken::from_yoctonear(99)
         );
         assert_eq!(

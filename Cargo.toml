@@ -2,7 +2,10 @@
 name = "near-token"
 version = "0.2.1"
 edition = "2021"
-authors = ["Serhieiev Ivan <serhieievivan6@gmail.com>", "Vlad Frolov <frolvlad@gmail.com>"]
+authors = [
+    "Serhieiev Ivan <serhieievivan6@gmail.com>",
+    "Vlad Frolov <frolvlad@gmail.com>",
+]
 repository = "https://github.com/near/near-token"
 rust-version = "1.68.2"
 categories = ["parser-implementations", "value-formatting", "no-std"]
@@ -13,10 +16,14 @@ description = "a small crate to work with NEAR token values ergonomically and ef
 serde = { version = "1", features = ["derive"], optional = true }
 borsh = { version = "1", features = ["derive"], optional = true }
 schemars = { version = "0.8.8", optional = true }
-interactive-clap = { version = "0.2.4", optional = true }
+interactive-clap = { version = ">0.2,<0.4", optional = true }
 
 [dev-dependencies]
 serde_json = { version = "1" }
 
 [features]
 abi = ["borsh/unstable__schema", "schemars"]
+serde = ["dep:serde"]
+interactive-clap = ["dep:interactive-clap"]
+borsh = ["dep:borsh"]
+schemars = ["dep:schemars"]
