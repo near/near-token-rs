@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2](https://github.com/near/near-token-rs/compare/v0.2.1...v0.2.2) - 2024-08-12
+
+### Other
+- Extended the range of supported interactive-clap versions ([#11](https://github.com/near/near-token-rs/pull/11))
+
 ## [0.2.1](https://github.com/near/near-token-rs/compare/v0.2.0...v0.2.1) - 2024-07-31
 
 ### Added
