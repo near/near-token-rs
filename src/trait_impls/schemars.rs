@@ -1,5 +1,5 @@
-use crate::NearToken;
 use crate::trait_impls::schemars_exports::schemars;
+use crate::NearToken;
 
 #[cfg(feature = "schemars-v0_8")]
 impl schemars::JsonSchema for NearToken {
@@ -44,7 +44,10 @@ mod test {
     fn json_schema_json_eq_v0_8() {
         let root = schemars::schema_for!(NearToken);
         let schema_json = serde_json::to_value(&root.schema).unwrap();
-        assert_eq!(schema_json, json!({ "title": "NearToken", "type": "string" }));
+        assert_eq!(
+            schema_json,
+            json!({ "title": "NearToken", "type": "string" })
+        );
     }
 
     #[test]
