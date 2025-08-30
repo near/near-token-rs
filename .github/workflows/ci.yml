@@ -19,7 +19,7 @@ env:
 
 jobs:
   test-msrv:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
@@ -32,7 +32,7 @@ jobs:
       run: cargo test --verbose
 
   test-all-features:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
@@ -45,7 +45,7 @@ jobs:
       run: cargo test --verbose --features __all-non-conflicting-features,abi
 
   test-schemars-v1:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
@@ -58,7 +58,7 @@ jobs:
       run: cargo test --verbose --features __all-non-conflicting-features,schemars-v1
 
   clippy:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
@@ -68,7 +68,7 @@ jobs:
       run: cargo clippy --features __all-non-conflicting-features,abi -- -D clippy::all
 
   cargo-fmt:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Repository
