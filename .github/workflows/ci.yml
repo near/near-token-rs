@@ -42,20 +42,7 @@ jobs:
       uses: dtolnay/rust-toolchain@stable
 
     - name: Run cargo test
-      run: cargo test --verbose --features __all-non-conflicting-features,abi
-
-  test-schemars-v1:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
-
-    - name: Install minimal supported Rust version
-      uses: dtolnay/rust-toolchain@stable
-
-    - name: Run cargo test
-      run: cargo test --verbose --features __all-non-conflicting-features,schemars-v1
+      run: cargo test --verbose --all-features
 
   clippy:
     runs-on: ubuntu-latest
@@ -65,7 +52,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Run clippy
-      run: cargo clippy --features __all-non-conflicting-features,abi -- -D clippy::all
+      run: cargo clippy --all-features -- -D clippy::all
 
   cargo-fmt:
     runs-on: ubuntu-latest

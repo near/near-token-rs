@@ -6,7 +6,5 @@ mod from_str;
 mod interactive_clap;
 #[cfg(any(feature = "schemars-v0_8", feature = "schemars-v1"))]
 mod schemars;
-#[cfg(any(feature = "schemars-v0_8", feature = "schemars-v1"))]
-mod schemars_exports;
 #[cfg(feature = "serde")]
 mod serde;

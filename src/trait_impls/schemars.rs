@@ -1,8 +1,6 @@
 use crate::NearToken;
 
-use schemars_v0_8;
-use schemars_v1;
-
+#[cfg(feature = "schemars-v0_8")]
 impl schemars_v0_8::JsonSchema for NearToken {
     fn is_referenceable() -> bool {
         false
@@ -21,6 +19,7 @@ impl schemars_v0_8::JsonSchema for NearToken {
     }
 }
 
+#[cfg(feature = "schemars-v1")]
 impl schemars_v1::JsonSchema for NearToken {
     fn schema_name() -> std::borrow::Cow<'static, str> {
         "NearToken".to_string().into()
@@ -39,6 +38,7 @@ mod test {
     use serde_json::json;
 
     #[test]
+    #[cfg(feature = "schemars-v0_8")]
     fn json_schema_json_eq_v0_8() {
         let root = schemars_v0_8::schema_for!(NearToken);
         let schema_json = serde_json::to_value(&root.schema).unwrap();
@@ -49,6 +49,7 @@ mod test {
     }
 
     #[test]
+    #[cfg(feature = "schemars-v1")]
     fn json_schema_json_eq_v1() {
         let root = schemars_v1::schema_for!(NearToken);
         let schema_json = serde_json::to_value(&root).unwrap();
