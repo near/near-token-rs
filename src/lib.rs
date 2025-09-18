@@ -49,6 +49,11 @@ const ONE_NEAR: u128 = 10_u128.pow(24);
 const ONE_MILLINEAR: u128 = 10_u128.pow(21);
 
 impl NearToken {
+    /// Maximum value for NearToken (u128::MAX)
+    pub const MAX: NearToken = NearToken::from_yoctonear(u128::MAX);
+    /// Zero value for NearToken
+    pub const ZERO: NearToken = NearToken::from_yoctonear(0);
+    
     /// `from_yoctonear` is a function that takes value by a number of yocto-near.
     /// # Examples
     /// ```
