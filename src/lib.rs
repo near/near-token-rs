@@ -53,7 +53,7 @@ impl NearToken {
     pub const MAX: NearToken = NearToken::from_yoctonear(u128::MAX);
     /// Zero value for NearToken
     pub const ZERO: NearToken = NearToken::from_yoctonear(0);
-    
+
     /// `from_yoctonear` is a function that takes value by a number of yocto-near.
     /// # Examples
     /// ```
