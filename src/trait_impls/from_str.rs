@@ -1,4 +1,4 @@
-use crate::{NearToken, NearTokenError, ONE_NEAR};
+use crate::{NearToken, NearTokenError, ONE_NEAR, ONE_MILLINEAR, ONE_MICRONEAR};
 
 impl std::str::FromStr for NearToken {
     type Err = NearTokenError;
@@ -10,6 +10,8 @@ impl std::str::FromStr for NearToken {
         );
         let unit_precision = match unit {
             "YN" | "YNEAR" | "YOCTONEAR" => 1,
+            "MICRONEAR" => ONE_MICRONEAR,
+            "MILLINEAR" => ONE_MILLINEAR,
             "NEAR" | "N" => ONE_NEAR,
             _ => return Err(NearTokenError::InvalidTokenUnit(s.to_owned())),
         };
@@ -50,6 +52,20 @@ mod test {
         let data = "123456 YN";
         let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
         assert_eq!(gas.unwrap(), NearToken::from_yoctonear(123456));
+    }
+
+    #[test]
+    fn parse_micro_number() {
+        let data = "123456 microNEAR";
+        let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
+        assert_eq!(gas.unwrap(), NearToken::from_micronear(123456));
+    }
+
+    #[test]
+    fn parse_milli_number() {
+        let data = "123456 milliNEAR";
+        let gas: Result<NearToken, NearTokenError> = FromStr::from_str(data);
+        assert_eq!(gas.unwrap(), NearToken::from_millinear(123456));
     }
 
     #[test]

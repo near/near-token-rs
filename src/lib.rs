@@ -47,6 +47,7 @@ pub struct NearToken {
 
 const ONE_NEAR: u128 = 10_u128.pow(24);
 const ONE_MILLINEAR: u128 = 10_u128.pow(21);
+const ONE_MICRONEAR: u128 = 10_u128.pow(18);
 
 impl NearToken {
     /// `from_yoctonear` is a function that takes value by a number of yocto-near.
@@ -59,7 +60,19 @@ impl NearToken {
         Self { inner }
     }
 
-    /// `from_millinear` is a function that takes value by a number of mili-near and converts it to an equivalent to the yocto-near.
+    /// `from_micronear` is a function that takes value by a number of micro-near and converts it to an equivalent to the yocto-near.
+    /// # Examples
+    /// ```
+    /// use near_token::NearToken;
+    /// assert_eq!(NearToken::from_micronear(1), NearToken::from_yoctonear(10u128.pow(18)))
+    /// ```
+    pub const fn from_micronear(inner: u128) -> Self {
+        Self {
+            inner: inner * ONE_MICRONEAR,
+        }
+    }
+
+    /// `from_millinear` is a function that takes value by a number of milli-near and converts it to an equivalent to the yocto-near.
     /// # Examples
     /// ```
     /// use near_token::NearToken;
@@ -93,7 +106,17 @@ impl NearToken {
         self.inner / ONE_NEAR
     }
 
-    /// `as_millinear` is a function that converts number of yocto-near to an equivalent to the mili-near.
+    /// `as_micronear` is a function that converts number of yocto-near to an equivalent to the micro-near.
+    /// # Examples
+    /// ```
+    /// use near_token::NearToken;
+    /// assert_eq!(NearToken::from_yoctonear(10u128.pow(18)).as_micronear(), 1)
+    /// ```
+    pub const fn as_micronear(&self) -> u128 {
+        self.inner / ONE_MICRONEAR
+    }
+
+    /// `as_millinear` is a function that converts number of yocto-near to an equivalent to the milli-near.
     /// # Examples
     /// ```
     /// use near_token::NearToken;
