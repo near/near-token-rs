@@ -1,4 +1,4 @@
-use crate::{NearToken, NearTokenError, ONE_NEAR, ONE_MILLINEAR, ONE_MICRONEAR};
+use crate::{NearToken, NearTokenError, ONE_MICRONEAR, ONE_MILLINEAR, ONE_NEAR};
 
 impl std::str::FromStr for NearToken {
     type Err = NearTokenError;
