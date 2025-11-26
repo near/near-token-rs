@@ -1,6 +1,6 @@
 [package]
 name = "near-token"
-version = "0.3.2"
+version = "0.3.3"
 edition = "2021"
 authors = [
     "Serhieiev Ivan <serhieievivan6@gmail.com>",
