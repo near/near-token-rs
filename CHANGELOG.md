@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.3](https://github.com/near/near-token-rs/compare/v0.3.2...v0.3.3) - 2025-11-26
+
+### Added
+
+- Add micronear; add millinear to fromStr ([#18](https://github.com/near/near-token-rs/pull/18))
+
+### Other
+
+- fix MSRV CI job ([#19](https://github.com/near/near-token-rs/pull/19))
+
 ## [0.3.2](https://github.com/near/near-token-rs/compare/v0.3.1...v0.3.2) - 2025-09-18
 
 ### Added
