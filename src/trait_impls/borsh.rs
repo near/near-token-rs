@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use borsh::{to_vec, BorshDeserialize};
+    use borsh::{BorshDeserialize, to_vec};
 
     use crate::NearToken;
 
