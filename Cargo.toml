@@ -2,7 +2,6 @@
 name = "near-token"
 version = "0.3.3"
 edition = "2024"
-resolver = "3"
 authors = [
     "Serhieiev Ivan <serhieievivan6@gmail.com>",
     "Vlad Frolov <frolvlad@gmail.com>",
