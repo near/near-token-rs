@@ -13,6 +13,7 @@ license = "MIT OR Apache-2.0"
 description = "a small crate to work with NEAR token values ergonomically and efficiently (NEAR Protocol)"
 
 [dependencies]
+arbitrary = { version = "1", features = ["derive"], optional = true }
 serde = { version = "1", features = ["derive"], optional = true }
 borsh = { version = "1", features = ["derive"], optional = true }
 schemars-v1 = { version = "1.0.3", optional = true, package = "schemars" }
@@ -24,9 +25,10 @@ serde_json = { version = "1" }
 
 [features]
 abi = ["borsh/unstable__schema", "schemars"]
+arbitrary = ["dep:arbitrary"]
 serde = ["dep:serde"]
 interactive-clap = ["dep:interactive-clap"]
 borsh = ["dep:borsh"]
 schemars = ["schemars-v0_8"]
 schemars-v1 = ["dep:schemars-v1"]
-schemars-v0_8 = ["dep:schemars-v0_8"] 
+schemars-v0_8 = ["dep:schemars-v0_8"]
