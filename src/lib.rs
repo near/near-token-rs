@@ -34,6 +34,7 @@ mod trait_impls;
 pub use self::error::NearTokenError;
 pub use self::utils::DecimalNumberParsingError;
 
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 #[derive(Default, Debug, Clone, Copy, PartialEq, PartialOrd, Ord, Eq, Hash)]
 #[cfg_attr(
     feature = "borsh",
