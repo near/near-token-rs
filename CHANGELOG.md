@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.4](https://github.com/near/near-token-rs/compare/v0.3.3...v0.3.4) - 2026-02-12
+
+### Added
+
+- Added `arbitrary` feature flag ([#22](https://github.com/near/near-token-rs/pull/22))
+
+### Other
+
+- Add CODEOWNERS file for repository ownership
+- upgrade to Rust edition 2024 ([#21](https://github.com/near/near-token-rs/pull/21))
+
 ## [0.3.3](https://github.com/near/near-token-rs/compare/v0.3.2...v0.3.3) - 2025-11-26
 
 ### Added
