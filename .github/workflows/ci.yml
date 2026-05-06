@@ -26,11 +26,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Install minimal supported Rust version
-      uses: dtolnay/rust-toolchain@1.68
-
-    - name: downgrade `indexmap` crate to support older Rust toolchain
-      run: |
-        cargo update -p indexmap --precise 2.11.4
+      uses: dtolnay/rust-toolchain@1.85.0
 
     - name: Run cargo test
       run: cargo test --verbose
