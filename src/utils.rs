@@ -12,6 +12,13 @@ pub(crate) fn parse_decimal_number(
     pref_const: u128,
 ) -> Result<u128, DecimalNumberParsingError> {
     let (int, fract) = if let Some((whole, fractional)) = s.trim().split_once('.') {
+        // `u128::from_str` accepts a leading `+`, which would silently accept
+        // malformed amounts: "1.+5" parses like "1.05" and "+5" like "5".
+        // A token amount must be an unsigned decimal, so reject an explicit sign
+        // in either component.
+        if whole.starts_with(['+', '-']) || fractional.starts_with(['+', '-']) {
+            return Err(DecimalNumberParsingError::InvalidNumber(s.to_owned()));
+        }
         let int: u128 = whole
             .parse()
             .map_err(|_| DecimalNumberParsingError::InvalidNumber(s.to_owned()))?;
@@ -34,6 +41,9 @@ pub(crate) fn parse_decimal_number(
             .ok_or_else(|| DecimalNumberParsingError::LongFractional(fractional.to_owned()))?;
         (int, fract)
     } else {
+        if s.trim().starts_with(['+', '-']) {
+            return Err(DecimalNumberParsingError::InvalidNumber(s.to_owned()));
+        }
         let int: u128 = s
             .parse()
             .map_err(|_| DecimalNumberParsingError::InvalidNumber(s.to_owned()))?;
@@ -93,6 +103,34 @@ mod tests {
         ),
         (129_380_000_001_u128, "00.129380000001", 10u128.pow(12)),
     ];
+
+    #[test]
+    fn rejects_plus_sign_in_fractional() {
+        // Regression: u128::from_str accepts a leading '+', so "1.+5" was
+        // silently parsed as "1.05" instead of being rejected.
+        let prefix = 10u128.pow(9);
+        assert_eq!(
+            parse_decimal_number("1.+5", prefix),
+            Err(DecimalNumberParsingError::InvalidNumber("1.+5".to_owned()))
+        );
+        assert_eq!(
+            parse_decimal_number("0.+9", prefix),
+            Err(DecimalNumberParsingError::InvalidNumber("0.+9".to_owned()))
+        );
+    }
+
+    #[test]
+    fn rejects_plus_sign_in_whole() {
+        let prefix = 10u128.pow(9);
+        assert_eq!(
+            parse_decimal_number("+1.5", prefix),
+            Err(DecimalNumberParsingError::InvalidNumber("+1.5".to_owned()))
+        );
+        assert_eq!(
+            parse_decimal_number("+5", prefix),
+            Err(DecimalNumberParsingError::InvalidNumber("+5".to_owned()))
+        );
+    }
 
     #[test]
     fn parse_test() {
