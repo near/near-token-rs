@@ -13,64 +13,14 @@ jobs:
     permissions:
       contents: read
 
-  release-plz-pr:
-    name: Release-plz PR
+  release:
     needs: validate
-    runs-on: ubuntu-latest
+    uses: near/shared-workflows/.github/workflows/release-plz.yml@v1
     permissions:
       contents: write
       pull-requests: write
-    concurrency:
-      group: release-plz-pr-${{ github.ref }}
-      cancel-in-progress: true
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-      - name: Run release-plz (release-pr)
-        uses: release-plz/action@v0.5
-        with:
-          command: release-pr
-        env:
-          GITHUB_TOKEN: ${{ secrets.NEARPROTOCOL_CI_PR_ACCESS }}
-
-  release-plz-release:
-    name: Release-plz release
-    needs: validate
-    runs-on: ubuntu-latest
-    env:
-      CARGO_TARGET_DIR: ${{ github.workspace }}/target
-    permissions:
-      contents: write
-      pull-requests: read
       id-token: write
       attestations: write
-    # Never cancel an in-flight publish — half-published releases are worse than waiting.
-    concurrency:
-      group: release-plz-release-${{ github.ref }}
-      cancel-in-progress: false
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-          persist-credentials: false
-      - name: Install Rust toolchain
-        uses: dtolnay/rust-toolchain@stable
-      - name: Run release-plz (release)
-        id: release-plz
-        uses: release-plz/action@v0.5
-        with:
-          command: release
-        env:
-          GITHUB_TOKEN: ${{ secrets.NEARPROTOCOL_CI_PR_ACCESS }}
-
-      - name: Attest build provenance
-        if: steps.release-plz.outputs.releases_created == 'true'
-        uses: actions/attest-build-provenance@v1
-        with:
-          subject-path: target/package/**/*.crate
+    secrets:
+      pr-token: ${{ secrets.NEARPROTOCOL_CI_PR_ACCESS }}
+      release-token: ${{ secrets.NEARPROTOCOL_CI_PR_ACCESS }}
