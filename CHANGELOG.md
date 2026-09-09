@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.6](https://github.com/near/near-token-rs/compare/v0.3.5...v0.3.6) - 2026-09-09
+
+### Other
+
+- trusted publishing to crates.io via release-plz + OIDC ([#25](https://github.com/near/near-token-rs/pull/25))
+
 ## [0.3.5](https://github.com/near/near-token-rs/compare/v0.3.4...v0.3.5) - 2026-08-31
 
 ### Fixed
