@@ -8,8 +8,14 @@ on:
 permissions: {}
 
 jobs:
+  validate:
+    uses: ./.github/workflows/ci.yml
+    permissions:
+      contents: read
+
   release-plz-pr:
     name: Release-plz PR
+    needs: validate
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -34,6 +40,7 @@ jobs:
 
   release-plz-release:
     name: Release-plz release
+    needs: validate
     runs-on: ubuntu-latest
     env:
       CARGO_TARGET_DIR: ${{ github.workspace }}/target
