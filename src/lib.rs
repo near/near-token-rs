@@ -72,9 +72,13 @@ impl NearToken {
     /// use near_token::NearToken;
     /// assert_eq!(NearToken::from_micronear(1), NearToken::from_yoctonear(10u128.pow(18)))
     /// ```
+    ///
+    /// # Panics
+    ///
+    /// Panics if the amount in yocto-near does not fit in a `u128`.
     pub const fn from_micronear(inner: u128) -> Self {
         Self {
-            inner: inner * ONE_MICRONEAR,
+            inner: whole_units_to_yocto(inner, ONE_MICRONEAR),
         }
     }
 
@@ -84,9 +88,13 @@ impl NearToken {
     /// use near_token::NearToken;
     /// assert_eq!(NearToken::from_millinear(1), NearToken::from_yoctonear(10u128.pow(21)))
     /// ```
+    ///
+    /// # Panics
+    ///
+    /// Panics if the amount in yocto-near does not fit in a `u128`.
     pub const fn from_millinear(inner: u128) -> Self {
         Self {
-            inner: inner * ONE_MILLINEAR,
+            inner: whole_units_to_yocto(inner, ONE_MILLINEAR),
         }
     }
 
@@ -96,9 +104,13 @@ impl NearToken {
     /// use near_token::NearToken;
     /// assert_eq!(NearToken::from_near(1), NearToken::from_yoctonear(10u128.pow(24)))
     /// ```
+    ///
+    /// # Panics
+    ///
+    /// Panics if the amount in yocto-near does not fit in a `u128`.
     pub const fn from_near(inner: u128) -> Self {
         Self {
-            inner: inner * ONE_NEAR,
+            inner: whole_units_to_yocto(inner, ONE_NEAR),
         }
     }
 
@@ -299,6 +311,15 @@ impl NearToken {
     }
 }
 
+/// Converts an amount in whole units to yocto-near, panicking on overflow in
+/// every build profile instead of wrapping when overflow checks are off.
+const fn whole_units_to_yocto(amount: u128, unit: u128) -> u128 {
+    match amount.checked_mul(unit) {
+        Some(yocto) => yocto,
+        None => panic!("NearToken amount overflows u128 yocto-near"),
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::NearToken;
@@ -415,5 +436,31 @@ mod test {
 
         let token = NearToken::from_yoctonear(1_234_567_890_123_456_789_000_000);
         assert_eq!(token.exact_amount_display(), "1.234567890123456789 NEAR");
+    }
+
+    #[test]
+    fn whole_unit_constructors_accept_the_largest_amount_that_fits() {
+        assert_eq!(
+            NearToken::from_near(u128::MAX / 10u128.pow(24)).as_yoctonear(),
+            u128::MAX / 10u128.pow(24) * 10u128.pow(24)
+        );
+    }
+
+    #[test]
+    #[should_panic(expected = "overflow")]
+    fn from_near_panics_on_overflow() {
+        NearToken::from_near(std::hint::black_box(u128::MAX / 10u128.pow(24) + 1));
+    }
+
+    #[test]
+    #[should_panic(expected = "overflow")]
+    fn from_millinear_panics_on_overflow() {
+        NearToken::from_millinear(std::hint::black_box(u128::MAX / 10u128.pow(21) + 1));
+    }
+
+    #[test]
+    #[should_panic(expected = "overflow")]
+    fn from_micronear_panics_on_overflow() {
+        NearToken::from_micronear(std::hint::black_box(u128::MAX / 10u128.pow(18) + 1));
     }
 }
