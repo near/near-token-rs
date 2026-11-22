@@ -3,9 +3,11 @@ use crate::{NearToken, NearTokenError, ONE_MICRONEAR, ONE_MILLINEAR, ONE_NEAR};
 impl std::str::FromStr for NearToken {
     type Err = NearTokenError;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        let uppercase_s = s.trim().to_ascii_uppercase();
+        let trimmed = s.trim();
+        let uppercase_s = trimmed.to_ascii_uppercase();
         let (value, unit) = uppercase_s.split_at(
-            s.find(|c: char| c.is_ascii_alphabetic())
+            trimmed
+                .find(|c: char| c.is_ascii_alphabetic())
                 .ok_or_else(|| NearTokenError::InvalidTokenUnit(s.to_owned()))?,
         );
         let unit_precision = match unit {
@@ -153,6 +155,18 @@ mod test {
         assert_eq!(
             near_gas,
             NearTokenError::InvalidTokenUnit("100.55.".to_string())
+        );
+    }
+
+    #[test]
+    fn test_from_str_leading_whitespace() {
+        assert_eq!(
+            NearToken::from_str(" 1 NEAR").unwrap(),
+            NearToken::from_near(1)
+        );
+        assert_eq!(
+            NearToken::from_str("  1.5 NEAR").unwrap(),
+            NearToken::from_yoctonear(1_500_000_000_000_000_000_000_000)
         );
     }
 
